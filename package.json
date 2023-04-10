@@ -1,6 +1,6 @@
 {
   "name": "@cgv.web/mongoose-cursor-pagination",
-  "version": "1.0.2",
+  "version": "1.0.0",
   "license": "MIT",
   "author": {
     "name": "Christian Gil Villaseñor",
@@ -12,7 +12,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsup src/*.ts --format cjs,esm --dts",
-    "release": "pnpm build && pnpm version patch && pnpm publish",
+    "release": "pnpm build && pnpm version patch && pnpm publish --access=public",
     "lint": "tsc"
   },
   "peerDependencies": {
