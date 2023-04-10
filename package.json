@@ -1,10 +1,27 @@
 {
   "name": "@cgv.web/mongoose-cursor-pagination",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "license": "MIT",
+  "private": false,
   "author": {
     "name": "Christian Gil Villaseñor",
     "email": "christian@chrisgvdev.com",
     "url": "https://chrisgvdev.com"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup src/*.ts --format cjs,esm --dts",
+    "release": "pnpm run build && changeset publish",
+    "lint": "tsc"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.26.1",
+    "@types/node": "^18.15.11",
+    "mongoose": "^7.0.3",
+    "tsup": "^6.7.0",
+    "typescript": "^5.0.4",
+    "zod": "^3.21.4"
   }
 }
