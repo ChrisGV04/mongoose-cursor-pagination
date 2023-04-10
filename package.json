@@ -1,0 +1,10 @@
+{
+  "name": "@cgv.web/mongoose-cursor-pagination",
+  "version": "1.0.0",
+  "license": "MIT",
+  "author": {
+    "name": "Christian Gil Villaseñor",
+    "email": "christian@chrisgvdev.com",
+    "url": "https://chrisgvdev.com"
+  }
+}
