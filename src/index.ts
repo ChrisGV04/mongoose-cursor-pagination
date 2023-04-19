@@ -51,14 +51,8 @@ async function paginate<T = any>(this: Model<T>, opts: PaginateOpts<T>): Promise
   let hasPrev = false;
 
   if (docs.length) {
-    hasNext = !!(await this.findOne(
-      { ...opts.filters, _id: { [query.order.nextKey]: docs.at(-1)?.id } },
-      { _id: true }
-    ));
-    hasPrev = !!(await this.findOne(
-      { ...opts.filters, _id: { [query.order.prevKey]: docs.at(0)?.id } },
-      { _id: true }
-    ));
+    hasNext = !!(await this.count({ ...opts.filters, _id: { [query.order.nextKey]: docs.at(-1)?.id } }));
+    hasPrev = !!(await this.count({ ...opts.filters, _id: { [query.order.prevKey]: docs.at(0)?.id } }));
   }
 
   return {
