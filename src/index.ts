@@ -65,7 +65,7 @@ async function paginate<T = any>(this: Model<T>, opts: PaginateOpts<T>): Promise
     hasNext = !!nextDocCount;
     hasPrev = !!prevDocCount;
 
-    totalCount = nextDocCount + prevDocCount + 2;
+    totalCount = nextDocCount + prevDocCount + docs.length;
   }
 
   return {
