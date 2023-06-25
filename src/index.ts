@@ -4,6 +4,7 @@ import { deepMerge } from './deep-merge';
 
 export interface Paginated<T = any> {
   data: T[];
+  totalCount: number;
   nextCursor: string | null;
   prevCursor: string | null;
 }
@@ -49,14 +50,27 @@ async function paginate<T = any>(this: Model<T>, opts: PaginateOpts<T>): Promise
 
   let hasNext = false;
   let hasPrev = false;
+  let totalCount = 0;
 
   if (docs.length) {
-    hasNext = !!(await this.count({ ...opts.filters, _id: { [query.order.nextKey]: docs.at(-1)?.id } }));
-    hasPrev = !!(await this.count({ ...opts.filters, _id: { [query.order.prevKey]: docs.at(0)?.id } }));
+    const nextDocCount = await this.count({
+      ...opts.filters,
+      _id: { [query.order.nextKey]: docs.at(-1)?.id },
+    });
+    const prevDocCount = await this.count({
+      ...opts.filters,
+      _id: { [query.order.prevKey]: docs.at(0)?.id },
+    });
+
+    hasNext = !!nextDocCount;
+    hasPrev = !!prevDocCount;
+
+    totalCount = nextDocCount + prevDocCount + 2;
   }
 
   return {
     data: docs,
+    totalCount,
     nextCursor: hasNext ? docs.at(-1)?.id : null,
     prevCursor: hasPrev ? docs.at(0)?.id : null,
   };
