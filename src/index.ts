@@ -53,11 +53,11 @@ async function paginate<T = any>(this: Model<T>, opts: PaginateOpts<T>): Promise
   let totalCount = 0;
 
   if (docs.length) {
-    const nextDocCount = await this.count({
+    const nextDocCount = await this.countDocuments({
       ...opts.filters,
       _id: { [query.order.nextKey]: docs.at(-1)?.id },
     });
-    const prevDocCount = await this.count({
+    const prevDocCount = await this.countDocuments({
       ...opts.filters,
       _id: { [query.order.prevKey]: docs.at(0)?.id },
     });
