@@ -22,7 +22,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsup src/*.ts --format cjs,esm --dts",
+    "build": "pnpx rimraf dist && tsup src/*.ts --format cjs,esm --dts --minify",
     "lint": "tsc",
     "release": "release-it && npm run build && npm publish"
   },
