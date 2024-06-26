@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/ChrisGV04/mongoose-cursor-pagination/compare/v1.2.0...v1.2.1) (2024-06-26)
+
+
+### Bug Fixes
+
+* Incorrect totalCount ([c9d975f](https://github.com/ChrisGV04/mongoose-cursor-pagination/commit/c9d975fbee10f36842c8182c3a4ad03850fba3ff))
+
 ## [1.2.0](https://github.com/ChrisGV04/mongoose-cursor-pagination/compare/v1.1.1...v1.2.0) (2024-06-26)
 
 
