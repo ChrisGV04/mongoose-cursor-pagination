@@ -6,9 +6,7 @@
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "repository": {
     "directory": "https://github.com/ChrisGV04/mongoose-cursor-pagination",
     "type": "git"
@@ -22,8 +20,8 @@
     "access": "public"
   },
   "scripts": {
-    "build": "pnpx rimraf dist && tsup src/*.ts --format cjs,esm --dts --minify",
-    "lint": "tsc",
+    "build": "rimraf dist && tsup src/*.ts --format cjs,esm --dts",
+    "lint": "biome lint ./src",
     "release": "release-it && npm run build && npm publish"
   },
   "peerDependencies": {
@@ -31,15 +29,18 @@
     "zod": "^3"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.27.1",
-    "@release-it/conventional-changelog": "^8.0.1",
-    "@types/node": "^20.11.25",
-    "changelogen": "^0.5.5",
-    "mongoose": "^8.2.1",
-    "prettier": "^3.2.5",
-    "release-it": "^17.1.1",
-    "tsup": "^8.0.2",
-    "typescript": "^5.4.2",
-    "zod": "^3.22.4"
+    "@biomejs/biome": "1.8.2",
+    "@changesets/cli": "2.27.6",
+    "@microsoft/api-extractor": "^7.47.0",
+    "@release-it/conventional-changelog": "8.0.1",
+    "@types/node": "20.14.9",
+    "changelogen": "0.5.5",
+    "mongoose": "8.4.4",
+    "prettier": "3.3.2",
+    "release-it": "17.4.0",
+    "rimraf": "5.0.7",
+    "tsup": "8.1.0",
+    "typescript": "5.5.2",
+    "zod": "3.23.8"
   }
 }
