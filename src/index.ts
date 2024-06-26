@@ -158,10 +158,12 @@ async function paginate<T = any>(this: Model<T>, opts: PaginateOpts<T>): Promise
         : null;
 
     if (nextCursor) {
-      const [nextFilter] = getFiltersFromCursor(nextCursor, query.order.next, {
-        by: opts.pagination.sortBy,
-        parse: opts.parseSortValue,
-      });
+      const [nextFilter] = getFiltersFromCursor(
+        nextCursor,
+        query.order.next,
+        { by: opts.pagination.sortBy, parse: opts.parseSortValue },
+        opts.filters,
+      );
 
       const nextCount = await this.countDocuments(nextFilter);
 
@@ -185,10 +187,12 @@ async function paginate<T = any>(this: Model<T>, opts: PaginateOpts<T>): Promise
     };
 
     // Previous requires the opposite order fn
-    const [prevFilter] = getFiltersFromCursor(prevCursor, query.order.prev, {
-      by: opts.pagination.sortBy,
-      parse: opts.parseSortValue,
-    });
+    const [prevFilter] = getFiltersFromCursor(
+      prevCursor,
+      query.order.prev,
+      { by: opts.pagination.sortBy, parse: opts.parseSortValue },
+      opts.filters,
+    );
 
     const prevCount = await this.countDocuments(prevFilter);
 
@@ -215,7 +219,7 @@ async function paginate<T = any>(this: Model<T>, opts: PaginateOpts<T>): Promise
  * must only be exclusive, since we haven't implemented multi-fields for sorting
  * and using as cursors.
  */
-function _getQuery(query: PaginationFields, parse?: ParseSortValueFn, mergeFilters?: FilterQuery<any>) {
+function _getQuery(query: PaginationFields, parse?: ParseSortValueFn, baseFilters?: FilterQuery<any>) {
   const order: QueryOrderResult = {
     current: query.order === 'desc' ? [-1, '$gt'] : [1, '$lt'],
     next: query.order === 'desc' ? [1, '$lt'] : [-1, '$gt'],
@@ -234,9 +238,12 @@ function _getQuery(query: PaginationFields, parse?: ParseSortValueFn, mergeFilte
     order.current = query.order === 'desc' ? [-1, '$lt'] : [1, '$gt'];
   }
 
-  const [_filter, sort] = getFiltersFromCursor(cursor, order.current, { by: query.sortBy, parse });
-
-  const filter: FilterQuery<any> = mergeFilters ? { $and: [mergeFilters, _filter] } : _filter;
+  const [filter, sort] = getFiltersFromCursor(
+    cursor,
+    order.current,
+    { by: query.sortBy, parse },
+    baseFilters,
+  );
 
   return { filter, cursor, sort, order, reverse, limit: query.limit };
 }
@@ -266,13 +273,14 @@ function getFiltersFromCursor(
   cursor: DecodedCursor | null,
   order: QueryOrderResult['current'],
   sort: { by: string; parse?: ParseSortValueFn },
+  baseFilters?: FilterQuery<any>,
 ): [FilterQuery<any>, Record<string, 1 | -1>] {
   const filter: FilterQuery<any> = {};
 
   const sortRules: Record<string, 1 | -1> =
     sort.by === '_id' ? { _id: order[0] } : { [sort.by]: order[0], _id: order[0] };
 
-  if (!cursor) return [filter, sortRules];
+  if (!cursor) return [baseFilters ? { $and: [filter, baseFilters] } : filter, sortRules];
 
   if (cursor.v !== undefined) {
     // The sorting will be done at another field
@@ -290,7 +298,7 @@ function getFiltersFromCursor(
     filter._id = { [order[1]]: cursor.id };
   }
 
-  return [filter, sortRules];
+  return [baseFilters ? { $and: [filter, baseFilters] } : filter, sortRules];
 }
 
 /** Mongoose plugin to add cursor pagination to any Schema */
