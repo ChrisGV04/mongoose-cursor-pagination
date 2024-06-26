@@ -1,12 +1,14 @@
 {
   "name": "@cgvweb/mongoose-cursor-pagination",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "repository": {
     "directory": "https://github.com/ChrisGV04/mongoose-cursor-pagination",
     "type": "git"

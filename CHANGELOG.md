@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/ChrisGV04/mongoose-cursor-pagination/compare/v1.1.1...v1.2.0) (2024-06-26)
+
+
+### Features
+
+* Implement multi-field sorting ([d874d0c](https://github.com/ChrisGV04/mongoose-cursor-pagination/commit/d874d0c396435b414af30bf6204155bd4df83acf))
+
 ## [1.1.1](https://github.com/ChrisGV04/mongoose-cursor-pagination/compare/v1.1.0...v1.1.1) (2024-03-06)
 
 
